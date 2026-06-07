@@ -1,0 +1,57 @@
+graph TB
+    USER["👤 用户"]
+
+    subgraph DECISION["🧠 决策层 — 3个skill"]
+        INVEST["/投资决策<br/>入口A：分析新标的<br/><br/>Step0 判断成分股 → 确定可分析深度<br/>创建 公司简称_代码/ 文件夹<br/>并行调用分析skill<br/>读取报告 → 数据完整度评分<br/>变异认知 → 概率加权 → 仓位<br/>论据 + 推翻条件<br/>缺失维度 → 下调确信度"]
+        REVIEW["/审视持仓<br/>入口B：复查已持有<br/><br/>读取历史决策报告<br/>论据还在吗？<br/>管理层减持了吗？<br/>ROE/毛利率恶化了吗？"]
+        PORTFOLIO["/组合诊断<br/>入口D：全局视角<br/><br/>遍历所有公司文件夹<br/>仓位集中度<br/>持仓相关性<br/>整体风险暴露"]
+    end
+
+    subgraph FUNDAMENTAL["🔬 基本面分析 — 4个skill"]
+        FIN["/财报分析<br/>✅ A股全市场<br/><br/>年报/季报原文<br/>杜邦拆解<br/>现金流质量<br/>资产负债表健康<br/>→ 01_财报分析.md"]
+        BIZ["/商业分析<br/>✅ 沪深300/500<br/>⚠️ 中小盘 行业数据少<br/><br/>五力模型<br/>护城河趋势<br/>管理层评估<br/>单位经济学<br/>→ 02_商业分析.md"]
+        VAL["/估值分析<br/>✅ 沪深300 一致预期完整<br/>⚠️ 中证500 部分覆盖<br/>❌ 其余 无一致预期<br/><br/>反向DCF 必做<br/>三情景概率加权<br/>卖方一致预期 如有<br/>→ 03_估值分析.md"]
+        CAT["/催化剂分析<br/>✅ A股全市场<br/><br/>事件时间表<br/>风险矩阵<br/>下行保护<br/>催化剂落空影响<br/>→ 04_催化剂分析.md"]
+    end
+
+    subgraph MARKET["📈 市场面分析 — 2个skill"]
+        TECH["/技术分析<br/>✅ A股全市场<br/><br/>K线趋势判断<br/>关键支撑/压力位<br/>量价关系<br/>均线+MACD+RSI<br/>距52周高低点位置<br/>→ 05_技术分析.md"]
+        CAP["/资金面分析<br/>✅ 沪深港通标的 ~1500只<br/>❌ 其余 无北向数据<br/><br/>主力资金流向<br/>北向资金 如有<br/>融资余额<br/>大宗交易<br/>资金背离信号<br/>→ 06_资金面分析.md"]
+    end
+
+    subgraph OUTPUT["📁 输出 — 按公司独立文件夹"]
+        FD["公司简称_股票代码/<br/>├── 01_财报分析.md<br/>├── 02_商业分析.md<br/>├── 03_估值分析.md<br/>├── 04_催化剂分析.md<br/>├── 05_技术分析.md<br/>├── 06_资金面分析.md<br/>└── 00_投资决策.md"]
+        PD["组合诊断.md"]
+    end
+
+    USER -->|"/分析 600030"| INVEST
+    USER -->|"/持仓 600030"| REVIEW
+    USER -->|"/组合"| PORTFOLIO
+
+    INVEST --> FIN
+    INVEST --> BIZ
+    INVEST --> VAL
+    INVEST --> CAT
+    INVEST --> TECH
+    INVEST --> CAP
+
+    FIN --> FD
+    BIZ --> FD
+    VAL --> FD
+    CAT --> FD
+    TECH --> FD
+    CAP --> FD
+    INVEST --> FD
+    REVIEW --> FD
+    PORTFOLIO --> FD
+    PORTFOLIO --> PD
+
+    style INVEST fill:#2563eb,color:#fff
+    style REVIEW fill:#2563eb,color:#fff
+    style PORTFOLIO fill:#2563eb,color:#fff
+    style FIN fill:#059669,color:#fff
+    style BIZ fill:#059669,color:#fff
+    style VAL fill:#059669,color:#fff
+    style CAT fill:#059669,color:#fff
+    style TECH fill:#8b5cf6,color:#fff
+    style CAP fill:#8b5cf6,color:#fff
