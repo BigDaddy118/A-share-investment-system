@@ -4,36 +4,24 @@ A股机构级投资分析技能系统。通过 6 维度并行分析 + 变异认�
 
 ## 使用的模型
 
-系统基于 [Claude Code](https://claude.ai/code) 的 Agent 工具架构，支持多模型并行调用：
+系统运行在 [Claude Code](https://claude.ai/code) 平台上，利用其 Agent 工具架构实现多代理并行分析。当前使用的模型：
 
-| 层级 | 任务 | 推荐模型 | 说明 |
+| 层级 | 任务 | 使用模型 | 说明 |
 |------|------|----------|------|
-| **编排层** | `/投资决策` 交叉验证、变异认知、仓位计算 | **Claude Opus 4.7** | 需要深度推理和综合判断 |
-| **编排层** | `/组合诊断` 集中度/相关性/风险评估 | **Claude Opus 4.7** | 组合层面需要全局视角 |
-| **编排层** | `/审视持仓` 论据复查 | **Claude Sonnet 4.6** | 单标的复查，推理量中等 |
-| **分析层** | 财报分析、商业分析、估值分析 | **Claude Sonnet 4.6** | 需要抓取网页数据 + 结构化分析 |
-| **分析层** | 催化剂分析、技术分析、资金面分析 | **Claude Sonnet 4.6** / **Claude Haiku 4.5** | 数据抓取 + 信号判断 |
+| **编排层** | `/投资决策` 交叉验证、变异认知、仓位计算 | **DeepSeek V4 Pro** | 需要深度推理和综合判断 |
+| **编排层** | `/组合诊断` 集中度/相关性/风险评估 | **DeepSeek V4 Pro** | 组合层面需要全局视角 |
+| **编排层** | `/审视持仓` 论据复查 | **DeepSeek V4 Pro** | 单标的复查，推理量中等 |
+| **分析层** | 6 个分析 Agent（财报/商业/估值/催化剂/技术/资金面） | **DeepSeek V4 Pro** | 数据抓取 + 结构化分析 + 信号判断 |
 
 ### 模型配置
 
-在 Claude Code 中，可以通过 Agent 的 `model` 参数指定模型：
+系统不绑定特定模型。通过 Claude Code 的模型设置，可以灵活切换：
 
-```
-Agent({
-  subagent_type: "general-purpose",
-  model: "sonnet",           // 可选: "opus" | "sonnet" | "haiku"
-  description: "财报分析",
-  prompt: "..."
-})
-```
-
-### 也支持其他模型提供商
-
-系统不绑定特定模型。通过 Claude Code 的模型配置，也可以使用：
-- **DeepSeek** 系列（如 deepseek-v4-pro）
+- **DeepSeek** 系列：deepseek-v4-pro、deepseek-v3 等
+- **Claude** 系列：claude-opus-4-7、claude-sonnet-4-6、claude-haiku-4-5 等
 - 其他 Claude Code 兼容的模型提供商
 
-具体在 Claude Code 设置中配置 `model` 字段即可切换。
+具体在 Claude Code 配置中修改 `model` 字段即可切换。不同层级的 Agent 也可以通过 `model` 参数指定不同模型，在成本和效果之间平衡。
 
 ## 快速开始
 
